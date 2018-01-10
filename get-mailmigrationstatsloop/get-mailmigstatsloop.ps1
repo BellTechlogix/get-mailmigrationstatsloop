@@ -32,7 +32,7 @@ Do{
     #$mig|where{$_.PercentComplete -ilt 100 -and $_.LastSuccessfulSyncTimestamp -ilt "1/10/2018"}|select DisplayName,StatusDetail,TotalMailboxSize,PercentComplete,LastSuccessfulSyncTimestamp|sort-object PercentComplete -Descending|ft
     
     #uncomment the next line when checking for finalization stats
-    #$mig|where{$_.PercentComplete -ilt 100 -and $_.LastSuccessfulSyncTimestamp -ilt "1/10/2018"}|select DisplayName,StatusDetail,TotalMailboxSize,PercentComplete,LastSuccessfulSyncTimestamp|sort-object PercentComplete -Descending|ft
+    #$mig|where{$_.PercentComplete -ilt 100}|select DisplayName,StatusDetail,TotalMailboxSize,PercentComplete,LastSuccessfulSyncTimestamp|sort-object PercentComplete -Descending|ft
     
     #gets statuses and loops to write current numbers
     $statustypes = $mig|select StatusDetail|Sort-Object -Property StatusDetail -Unique
