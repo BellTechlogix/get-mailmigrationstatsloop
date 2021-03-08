@@ -1,7 +1,7 @@
-﻿###Created:Jan 02 2018###
+﻿###Created:Nov 26 2015###
+###Modified:Mar 08 2021###
 ###Author:Kristopher Roy###
 ###Company:Belltechlogix###
-###Updated:Jan 10 2018###
 
 #Check if Session is Open
 If($session.State -ne "Opened")
@@ -24,6 +24,11 @@ Do{
     $batchid = "01102018"
     Write-Host "Status for Batch"$batchid"....." -ForegroundColor Green
     $mig = Get-MigrationUser -BatchID $batchid|Get-MoveRequestStatistics|select *
+	
+	#this code creates a status bar
+	$count = $mig.percentcomplete.count
+    $percentdone = [math]::Round(($mig.percentcomplete -split ' '  | measure-object -sum).sum/$count,2)
+    Write-Progress -Activity ("migration completion") -Status "Total percent of $($count) mailboxes $percentdone%" -PercentComplete (($mig.percentcomplete -split ' '  | measure-object -sum).sum/$count)
 
     #uncomment the next line when checking for syncing stats
     #$mig|where{$_.PercentComplete -ilt 95}|select DisplayName,StatusDetail,TotalMailboxSize,PercentComplete,LastSuccessfulSyncTimestamp|sort-object PercentComplete -Descending|ft    
